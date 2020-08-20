@@ -70,26 +70,27 @@
         }
 
         function game() {
-            let ps;
-            let cs;
+            let playerSelection;
+            let computerSelection;
             let roundResult;
             let gameResults = createGameResult();
             let timesToRepeat = 5;
             for (i = 0; i < timesToRepeat; i++) {
-                cs = computerPlay();
-                ps = prompt("Rock, paper or scissors?");
-                if (ps == null) {
+                computerSelection = computerPlay();
+                playerSelection = prompt("Rock, paper or scissors?");
+                if (playerSelection == null) {
                     break;
                 }
-                ps = ps.toLowerCase();
-                if (!Object.keys(choice).some(k => choice[k] === ps)) {
+                playerSelection = playerSelection.toLowerCase();
+                if (!Object.keys(choice).some(k => choice[k] === playerSelection)) {
                     break;
                 }
-                roundResult = playRound(ps, cs);
+                roundResult = playRound(playerSelection, computerSelection);
                 gameResults = addRoundToGameResult(gameResults, roundResult);
-                console.log(`You ${roundResult}! ${ps.toString()} vs ${cs.toString()}`);
+                console.log(`You ${roundResult}! ${playerSelection.toString()} vs ${computerSelection.toString()}`);
             }
-            console.log(`You ${(gameResults.won > gameResults.lost) ? 'won' : ((gameResults.won < gameResults.lost) ? 'lost' : 'got tie in')} the game!`);
+            console.log(`You ${(gameResults.won > gameResults.lost) ? 'won' :
+                ((gameResults.won < gameResults.lost) ? 'lost' : 'got tie in')} the game!`);
         }
 
         game();
