@@ -1,0 +1,21 @@
+#container {
+    background-color: powderblue;
+    width: 500px;
+    height: 500px;
+    padding-top: 10%;
+    box-sizing: border-box;
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+.text-container {
+    width: 100%;
+    text-align: center;
+    margin: 10px;
+}

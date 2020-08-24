@@ -4,97 +4,21 @@
 <head>
     <title>Page Title</title>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <script>
+    <div id="container" class="center">
+        <div id="running-score" class="text-container">WON: 0 LOST: 0 TIE: 0</div>
+        <div id="round-info" class="text-container">Play!</div>
+        <div class="text-container">
+            <button class="choice" value="rock">Rock</button>
+            <button class="choice" value="paper">Paper</button>
+            <button class="choice" value="scissors">Scissors</button>
+        </div>
+    </div>
 
-        const choice = {
-            ROCK: 'rock',
-            PAPER: 'paper',
-            SCISSORS: 'scissors'
-        }
-
-        const result = {
-            WIN: 'win',
-            LOSE: 'lose',
-            TIE: 'got tie'
-        }
-
-        function computerPlay() {
-            let random = Math.floor(Math.random() * Math.floor(3));
-            switch (random) {
-                case 0:
-                    return choice.ROCK;
-                    break;
-                case 1:
-                    return choice.PAPER;
-                    break;
-                case 2:
-                    return choice.SCISSORS;
-                    break;
-            }
-        }
-
-        function playRound(playerSelection, computerSelection) {
-            let playerWins = false;
-            let roundResult;
-            if (playerSelection === computerSelection) {
-                roundResult = result.TIE;
-            }
-            else if (playerSelection === choice.ROCK && computerSelection === choice.SCISSORS
-                || playerSelection === choice.PAPER && computerSelection === choice.ROCK
-                || playerSelection === choice.SCISSORS && computerSelection === choise.PAPER) {
-                roundResult = result.WIN;
-            }
-            else {
-                roundResult = result.LOSE;
-            }
-            return roundResult;
-        }
-
-        function addRoundToGameResult(currentResult, roundResult) {
-            return {
-                won: (roundResult === result.WIN) ? (currentResult.won + 1) : currentResult.won,
-                lost: (roundResult === result.LOSE) ? (currentResult.lost + 1) : currentResult.lost,
-                tie: (roundResult === result.TIE) ? (currentResult.tie + 1) : currentResult.tie
-            };
-        }
-
-        function createGameResult() {
-            return {
-                won: 0,
-                lost: 0,
-                tie: 0
-            };
-        }
-
-        function game() {
-            let playerSelection;
-            let computerSelection;
-            let roundResult;
-            let gameResults = createGameResult();
-            let timesToRepeat = 5;
-            for (i = 0; i < timesToRepeat; i++) {
-                computerSelection = computerPlay();
-                playerSelection = prompt("Rock, paper or scissors?");
-                if (playerSelection == null) {
-                    break;
-                }
-                playerSelection = playerSelection.toLowerCase();
-                if (!Object.keys(choice).some(k => choice[k] === playerSelection)) {
-                    break;
-                }
-                roundResult = playRound(playerSelection, computerSelection);
-                gameResults = addRoundToGameResult(gameResults, roundResult);
-                console.log(`You ${roundResult}! ${playerSelection.toString()} vs ${computerSelection.toString()}`);
-            }
-            console.log(`You ${(gameResults.won > gameResults.lost) ? 'won' :
-                ((gameResults.won < gameResults.lost) ? 'lost' : 'got tie in')} the game!`);
-        }
-
-        game();
-    </script>
+    <script src="scripts.js" type="text/javascript"></script>
 </body>
 
 </html>
