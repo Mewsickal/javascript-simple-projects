@@ -10,6 +10,26 @@ const result = {
     TIE: 'got tie'
 }
 
+function GameResult() {
+    this.won = 0;
+    this.lost = 0;
+    this.tie = 0;
+}
+
+GameResult.prototype.addRoundResult = function (roundResult) {
+    switch (roundResult) {
+        case result.WIN:
+            this.won++;
+            break;
+        case result.LOSE:
+            this.lost++;
+            break;
+        case result.TIE:
+            this.tie++;
+            break;
+    }
+}
+
 function computerPlay() {
     let random = Math.floor(Math.random() * Math.floor(3));
     switch (random) {
@@ -42,22 +62,6 @@ function playRound(playerSelection, computerSelection) {
     return roundResult;
 }
 
-function addRoundToGameResult(currentResult, roundResult) {
-    return {
-        won: (roundResult === result.WIN) ? (currentResult.won + 1) : currentResult.won,
-        lost: (roundResult === result.LOSE) ? (currentResult.lost + 1) : currentResult.lost,
-        tie: (roundResult === result.TIE) ? (currentResult.tie + 1) : currentResult.tie
-    };
-}
-
-function createGameResult() {
-    return {
-        won: 0,
-        lost: 0,
-        tie: 0
-    };
-}
-
 function onChoiceButtonClicked(e) {
     let playerSelection = e.target.value;
     if (playerSelection == null) {
@@ -70,8 +74,8 @@ function onChoiceButtonClicked(e) {
     let computerSelection = computerPlay();
     let roundResult = playRound(playerSelection, computerSelection);
     roundInfo.textContent = `You ${roundResult}! ${playerSelection.toString()} vs ${computerSelection.toString()}`;
-    gameResults = addRoundToGameResult(gameResults, roundResult);
-    runningScore.textContent = `WON: ${gameResults.won} LOST: ${gameResults.lost} TIE: ${gameResults.tie}`;
+    gameResult.addRoundResult(roundResult);
+    runningScore.textContent = `WON: ${gameResult.won} LOST: ${gameResult.lost} TIE: ${gameResult.tie}`;
 }
 
 const choiceButtons = document.querySelectorAll('button.choice');
@@ -80,4 +84,4 @@ choiceButtons.forEach((button) => {
 });
 const roundInfo = document.querySelector('div#round-info');
 const runningScore = document.querySelector('div#running-score');
-let gameResults = createGameResult();
+let gameResult = new GameResult();
