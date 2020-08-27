@@ -1,0 +1,27 @@
+:root {
+    --el-width: 90px;
+}
+
+#container {
+    width: calc(var(--el-width) * 4);
+    height: calc(var(--el-width) * 4);
+    box-sizing: border-box;
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+.board-el {
+    width: var(--el-width);
+    height: var(--el-width);
+    border-style: solid;
+    float: left;
+    text-align: center;
+    font-size: xx-large;
+    line-height: var(--el-width);
+}
