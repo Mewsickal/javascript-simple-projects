@@ -24,4 +24,5 @@
     text-align: center;
     font-size: xx-large;
     line-height: var(--el-width);
+    cursor: default;
 }
