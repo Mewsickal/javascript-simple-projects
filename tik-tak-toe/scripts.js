@@ -20,7 +20,17 @@ const gameBoard = (() => {
 const Player = (s) => {
     let symbol = s;
     const getSymbol = () => symbol;
-    return { getSymbol };
+    const play = (fields) => { };
+    return { getSymbol, play };
+};
+
+const AIPlayer = (s) => {
+    const prototype = Player(s);
+    const play = (fields) => {
+        const allEmpty = fields.filter(el => el.textContent === '');
+        allEmpty[allEmpty.length * Math.random() | 0].click();
+    }
+    return Object.assign({}, prototype, { play });
 };
 
 const game = (() => {
@@ -31,6 +41,7 @@ const game = (() => {
     let winner;
     const changeActivePlayer = () => {
         activePlayer = (activePlayer === player1) ? player2 : player1;
+        activePlayer.play(fields);
     };
     const getGameStatus = () => {
         let gameOver = false;
@@ -39,8 +50,6 @@ const game = (() => {
             gameOver = true;
             winner = null;
         };
-        fields.sp
-
         return { gameOver, winner };
     };
     const reset = () => {
@@ -53,10 +62,12 @@ const game = (() => {
     const onFieldClicked = (e) => {
         if (e.target.textContent === '') {
             e.target.textContent = activePlayer.getSymbol();
-            changeActivePlayer();
             let gameStatus = getGameStatus();
             if (gameStatus.gameOver) {
                 reset();
+            }
+            else {
+                changeActivePlayer();
             }
         }
     };
@@ -67,7 +78,7 @@ const game = (() => {
             element.addEventListener('click', onFieldClicked);
         });
         player1 = Player('x');
-        player2 = Player('o');
+        player2 = AIPlayer('o');
         activePlayer = player1;
     };
     return { start };
