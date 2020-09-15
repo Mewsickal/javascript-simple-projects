@@ -40,18 +40,35 @@ const game = (() => {
     let activePlayer;
     let winner;
     let playAgain;
+    var winningCombo = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
     const changeActivePlayer = () => {
         activePlayer = (activePlayer === player1) ? player2 : player1;
         activePlayer.play(fields);
     };
+    const isGameWon = () => {
+        const sequence =
+            winningCombo.find(el => fields[el[0]].textContent === fields[el[1]].textContent
+                && fields[el[0]].textContent === fields[el[2]].textContent
+                && fields[el[0]].textContent !== '');
+        if (sequence) {
+            return true;
+        }
+        return false;
+    };
     const getGameStatus = () => {
-        let gameOver = false;
-        let winner;
-        if (fields.every(el => el.textContent != '')) {
-            gameOver = true;
-            winner = null;
-        };
-        return { gameOver, winner };
+        if (isGameWon() || fields.every(el => el.textContent != '')) {
+            return { gameOver: true };
+        }
+        return { gameOver: false };
     };
     const reset = (e) => {
         fields.forEach((element) => {
