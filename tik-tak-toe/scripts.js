@@ -39,6 +39,7 @@ const game = (() => {
     let player2;
     let activePlayer;
     let winner;
+    let playAgain;
     const changeActivePlayer = () => {
         activePlayer = (activePlayer === player1) ? player2 : player1;
         activePlayer.play(fields);
@@ -52,19 +53,20 @@ const game = (() => {
         };
         return { gameOver, winner };
     };
-    const reset = () => {
+    const reset = (e) => {
         fields.forEach((element) => {
             element.textContent = '';
         });
         activePlayer = player1;
         winner = null;
+        playAgain.classList.toggle("hidden");
     };
     const onFieldClicked = (e) => {
         if (e.target.textContent === '') {
             e.target.textContent = activePlayer.getSymbol();
             let gameStatus = getGameStatus();
             if (gameStatus.gameOver) {
-                reset();
+                playAgain.classList.toggle("hidden");
             }
             else {
                 changeActivePlayer();
@@ -80,6 +82,8 @@ const game = (() => {
         player1 = Player('x');
         player2 = AIPlayer('o');
         activePlayer = player1;
+        playAgain = document.querySelector('#playAgain');
+        playAgain.addEventListener('click', reset);
     };
     return { start };
 })();

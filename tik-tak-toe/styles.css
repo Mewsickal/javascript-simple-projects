@@ -3,8 +3,8 @@
 }
 
 #container {
-    width: calc(var(--el-width) * 4);
-    height: calc(var(--el-width) * 4);
+    width: calc(var(--el-width) * 3.2);
+    height: calc(var(--el-width) * 3.2);
     box-sizing: border-box;
 }
 
@@ -25,4 +25,21 @@
     font-size: xx-large;
     line-height: var(--el-width);
     cursor: default;
+}
+
+.colored {
+    background-color: blueviolet;
+}
+
+#playAgain {
+    margin: 15px 0px;
+    width: 100%;    
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.shown {
+    visibility: visible;
 }
