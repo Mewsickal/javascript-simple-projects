@@ -54,13 +54,18 @@ const game = (() => {
         activePlayer = (activePlayer === player1) ? player2 : player1;
         activePlayer.play(fields);
     };
+    const setWinningSequence = (newSequence) => {
+        fields.forEach(el => el.classList.remove('colored'));
+        newSequence.forEach(el => fields[el].classList.add('colored'));
+        winningSequence = newSequence;
+    }
     const isGameWon = () => {
         const sequence =
             winningCombo.find(el => fields[el[0]].textContent === fields[el[1]].textContent
                 && fields[el[0]].textContent === fields[el[2]].textContent
                 && fields[el[0]].textContent !== '');
         if (sequence) {
-            winningSequence = sequence;
+            setWinningSequence(sequence);
             return true;
         }
         return false;
@@ -76,7 +81,7 @@ const game = (() => {
             element.textContent = '';
         });
         activePlayer = player1;
-        winningSequence = [];
+        setWinningSequence([]);
         playAgain.classList.toggle("hidden");
     };
     const onFieldClicked = (e) => {
