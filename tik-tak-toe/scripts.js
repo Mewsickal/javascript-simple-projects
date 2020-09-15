@@ -58,43 +58,46 @@ const game = (() => {
         fields.forEach(el => el.classList.remove('colored'));
         newSequence.forEach(el => fields[el].classList.add('colored'));
         winningSequence = newSequence;
-    }
+    };
     const getWinninSequence = () => {
         const sequence =
             winningCombo.find(el => fields[el[0]].textContent === fields[el[1]].textContent
                 && fields[el[0]].textContent === fields[el[2]].textContent
                 && fields[el[0]].textContent !== '');
-        return sequence;
+        return sequence ?? [];
     };
     const getGameStatus = () => {
         let sequence = getWinninSequence();
-        if (sequence || fields.every(el => el.textContent != '')) {
+        if (sequence.length > 0 || fields.every(el => el.textContent != '')) {
             return { gameOver: true, sequence: sequence };
         }
         return { gameOver: false, sequence: [] };
     };
-    const setUpUI = (sequence) => {
+    const setUpUI = (sequence, isgameOver) => {
         setWinningSequence(sequence);
         let winLabel = document.querySelector("#winLabel");
         winLabel.classList.toggle("hidden");
         if (sequence.length > 0) {
             winLabel.textContent = fields[sequence[0]].textContent === player1.getSymbol() ? "You win!" : "You lose!";
         }
+        else if (isgameOver) {
+            winLabel.textContent = 'You got tie!';
+        }
         playAgain.classList.toggle("hidden");
     }
     const reset = (e) => {
-        fields.forEach((element) => {
+        fields.forEach(element => {
             element.textContent = '';
         });
         activePlayer = player1;
-        setUpUI([]);
+        setUpUI([], false);
     };
     const onFieldClicked = (e) => {
         if (e.target.textContent === '' && winningSequence.length === 0) {
             e.target.textContent = activePlayer.getSymbol();
             let gameStatus = getGameStatus();
             if (gameStatus.gameOver) {
-                setUpUI(gameStatus.sequence);
+                setUpUI(gameStatus.sequence, true);
             }
             else {
                 changeActivePlayer();
