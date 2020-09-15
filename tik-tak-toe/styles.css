@@ -43,3 +43,8 @@
 .shown {
     visibility: visible;
 }
+
+#winLabel {
+    text-align: center;
+    font-size: xx-large;
+}

@@ -59,43 +59,48 @@ const game = (() => {
         newSequence.forEach(el => fields[el].classList.add('colored'));
         winningSequence = newSequence;
     }
-    const isGameWon = () => {
+    const getWinninSequence = () => {
         const sequence =
             winningCombo.find(el => fields[el[0]].textContent === fields[el[1]].textContent
                 && fields[el[0]].textContent === fields[el[2]].textContent
                 && fields[el[0]].textContent !== '');
-        if (sequence) {
-            setWinningSequence(sequence);
-            return true;
-        }
-        return false;
+        return sequence;
     };
     const getGameStatus = () => {
-        if (isGameWon() || fields.every(el => el.textContent != '')) {
-            return { gameOver: true };
+        let sequence = getWinninSequence();
+        if (sequence || fields.every(el => el.textContent != '')) {
+            return { gameOver: true, sequence: sequence };
         }
-        return { gameOver: false };
+        return { gameOver: false, sequence: [] };
     };
+    const setUpUI = (sequence) => {
+        setWinningSequence(sequence);
+        let winLabel = document.querySelector("#winLabel");
+        winLabel.classList.toggle("hidden");
+        if (sequence.length > 0) {
+            winLabel.textContent = fields[sequence[0]].textContent === player1.getSymbol() ? "You win!" : "You lose!";
+        }
+        playAgain.classList.toggle("hidden");
+    }
     const reset = (e) => {
         fields.forEach((element) => {
             element.textContent = '';
         });
         activePlayer = player1;
-        setWinningSequence([]);
-        playAgain.classList.toggle("hidden");
+        setUpUI([]);
     };
     const onFieldClicked = (e) => {
         if (e.target.textContent === '' && winningSequence.length === 0) {
             e.target.textContent = activePlayer.getSymbol();
             let gameStatus = getGameStatus();
             if (gameStatus.gameOver) {
-                playAgain.classList.toggle("hidden");
+                setUpUI(gameStatus.sequence);
             }
             else {
                 changeActivePlayer();
             }
         }
-    };
+    }
     const start = () => {
         gameBoard.create();
         fields = Array.from(document.querySelectorAll('.board-el'));
