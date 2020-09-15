@@ -38,7 +38,7 @@ const game = (() => {
     let player1;
     let player2;
     let activePlayer;
-    let winner;
+    let winningSequence = [];
     let playAgain;
     var winningCombo = [
         [0, 1, 2],
@@ -60,6 +60,7 @@ const game = (() => {
                 && fields[el[0]].textContent === fields[el[2]].textContent
                 && fields[el[0]].textContent !== '');
         if (sequence) {
+            winningSequence = sequence;
             return true;
         }
         return false;
@@ -75,11 +76,11 @@ const game = (() => {
             element.textContent = '';
         });
         activePlayer = player1;
-        winner = null;
+        winningSequence = [];
         playAgain.classList.toggle("hidden");
     };
     const onFieldClicked = (e) => {
-        if (e.target.textContent === '') {
+        if (e.target.textContent === '' && winningSequence.length === 0) {
             e.target.textContent = activePlayer.getSymbol();
             let gameStatus = getGameStatus();
             if (gameStatus.gameOver) {
